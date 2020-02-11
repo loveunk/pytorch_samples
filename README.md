@@ -2,5 +2,5 @@
 
 ## MNIST training and test
 ```python
-python mnist_train_test.py
+python main.py
 ```
