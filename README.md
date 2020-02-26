@@ -30,7 +30,7 @@ conda install pillow=6.1
 
 # install git and clone this repo
 conda install git
-conda clone https://github.com/loveunk/pytorch_samples.git
+git clone https://github.com/loveunk/pytorch_samples.git
 
 # run the MNIST training and test sample
 cd pytorch_samples/mnist/
