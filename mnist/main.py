@@ -4,12 +4,11 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
+from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 from torch.optim.lr_scheduler import StepLR
-from torch.utils.tensorboard import SummaryWriter
 
-# Writer will output to ./runs/ directory by default
-writer = SummaryWriter()
+writer = None
 
 class Net(nn.Module):
     def __init__(self):
@@ -94,7 +93,9 @@ def main():
                         help='random seed (default: 1)')
     parser.add_argument('--log-interval', type=int, default=100, metavar='N',
                         help='how many batches to wait before logging training status')
-    parser.add_argument('--tensorboard', action='store_true', default=True)
+    parser.add_argument('--gpus', type=int, default=1, metavar='N',
+                        help='number of GPUs to train')
+    parser.add_argument('--tensorboard', action='store_true', default=False)
 
     parser.add_argument('--save-model', action='store_true', default=False,
                         help='For Saving the current Model')
@@ -120,13 +121,25 @@ def main():
                        ])),
         batch_size=args.test_batch_size, shuffle=True, **kwargs)
 
-    model = Net().to(device)
-    optimizer = optim.Adadelta(model.parameters(), lr=args.lr)
-    
     if args.tensorboard:
+        from torch.utils.tensorboard import SummaryWriter
+
+        # Writer will output to ./runs/ directory by default
+        global writer
+        writer = SummaryWriter()
+        
         x = torch.randn(1, 1, 28, 28)
         writer.add_graph(Net(), x)
 
+    model = Net().to(device)
+    
+    # multi-GPUs data
+    if torch.cuda.device_count() > 1 and args.gpus > 1:
+        gpu_num = min(torch.cuda.device_count(), args.gpus)
+        print("let's use {} gpus".format(str(gpu_num)))
+        model = nn.DataParallel(model, device_ids=[i for i in range(gpu_num)])
+
+    optimizer = optim.Adadelta(model.parameters(), lr=args.lr)
 
     scheduler = StepLR(optimizer, step_size=1, gamma=args.gamma)
     for epoch in range(1, args.epochs + 1):
