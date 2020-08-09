@@ -60,9 +60,9 @@ def train(args, model, device, train_loader, optimizer, epoch):
                 epoch, batch_idx * len(data), len(train_loader.dataset),
                 100. * batch_idx / len(train_loader), loss.item()))
         if args.tensorboard:
-            writer.add_scalar('Loss/train', loss.item(), int(batch_idx + (epoch - 1) * (len(train_loader.dataset) / args.batch_size)))
+            writer.add_scalar('Loss/train', loss.item(), batch_idx + (epoch - 1) * int(math.ceil(len(train_loader.dataset) / args.batch_size)))
         
-        experiment.log_metric("Loss_train", loss.item(), step=int(batch_idx + (epoch - 1) * (len(train_loader.dataset) / args.batch_size)))
+        experiment.log_metric("Loss_train", loss.item(), step=batch_idx + (epoch - 1) * int(math.ceil(len(train_loader.dataset) / args.batch_size)))
 
 
 def test(args, model, device, test_loader, epoch):

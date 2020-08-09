@@ -1,4 +1,9 @@
 from __future__ import print_function
+
+# import neptune in the top of your file
+import neptune
+
+import math
 import argparse
 import torch
 import torch.nn as nn
@@ -7,8 +12,9 @@ import torch.optim as optim
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 from torch.optim.lr_scheduler import StepLR
-import mlflow
-import mlflow.pytorch
+
+# select project
+neptune.init('loveunk/pytorch-mnist')
 
 writer = None
 
@@ -52,8 +58,8 @@ def train(args, model, device, train_loader, optimizer, epoch):
                 100. * batch_idx / len(train_loader), loss.item()))
         if args.tensorboard:
             writer.add_scalar('Loss/train', loss.item(), batch_idx + (epoch - 1) * int(math.ceil(len(train_loader.dataset) / args.batch_size)))
-        
-        mlflow.log_metric(key="Loss_train", value=loss.item(), step=batch_idx + (epoch - 1) * int(math.ceil(len(train_loader.dataset) / args.batch_size)))
+
+        neptune.log_metric("Loss_train", batch_idx + (epoch - 1) * int(math.ceil(len(train_loader.dataset) / args.batch_size)), loss.item())
 
 
 def test(args, model, device, test_loader, epoch):
@@ -77,7 +83,7 @@ def test(args, model, device, test_loader, epoch):
     if args.tensorboard:
         writer.add_scalar('Accuracy/test', accuracy, epoch)
         
-    mlflow.log_metric(key="Accuracy_test", value=accuracy, step=epoch)
+    neptune.log_metric("Accuracy_test", epoch, accuracy)
 
 
 def main():
@@ -149,18 +155,17 @@ def main():
 
     scheduler = StepLR(optimizer, step_size=1, gamma=args.gamma)
     
-    
+    neptune.create_experiment(name='quick_start_example', params=args.__dict__)
+
     # log the model
-    with mlflow.start_run() as run:
-        for epoch in range(1, args.epochs + 1):
-            train(args, model, device, train_loader, optimizer, epoch)
-            test(args, model, device, test_loader, epoch)
-            scheduler.step()
-        mlflow.log_param("epochs", args.epochs)
-        mlflow.pytorch.log_model(model, "models")
+    for epoch in range(1, args.epochs + 1):
+        train(args, model, device, train_loader, optimizer, epoch)
+        test(args, model, device, test_loader, epoch)
+        scheduler.step()
 
     if args.save_model:
         torch.save(model.state_dict(), "mnist_cnn.pt")
+        neptune.log_artifact("mnist_cnn.pt")
 
 
 if __name__ == '__main__':
