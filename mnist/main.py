@@ -98,7 +98,9 @@ def main():
     parser.add_argument('--tensorboard', action='store_true', default=False)
 
     parser.add_argument('--save-model', action='store_true', default=False,
-                        help='For Saving the current Model')
+                        help='save the current model')
+    parser.add_argument('--dump-model-pkl', action='store_true', default=False,
+                        help='dump the model to pickle file')
     args = parser.parse_args()
     use_cuda = not args.no_cuda and torch.cuda.is_available()
 
@@ -149,6 +151,12 @@ def main():
 
     if args.save_model:
         torch.save(model.state_dict(), "mnist_cnn.pt")
+
+    if args.dump_model_pkl:
+        import cloudpickle
+        pickled_lambda = cloudpickle.dumps(model)
+        with open("model.pkl", "wb") as f:
+            f.write(pickled_lambda)
 
 
 if __name__ == '__main__':
