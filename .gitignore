@@ -3,3 +3,9 @@ runs
 .ipynb_checkpoints
 __pycache__
 .vscode
+*.pyd
+*.so
+*.obj
+*.lib
+*.egg
+*.exp
