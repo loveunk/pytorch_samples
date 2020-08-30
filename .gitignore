@@ -9,3 +9,5 @@ __pycache__
 *.lib
 *.egg
 *.exp
+pytorch_ext/lltm/cpp/build
+lltm_cpp.egg-info
