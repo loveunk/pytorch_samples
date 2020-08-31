@@ -1,6 +1,9 @@
 from torch.utils.cpp_extension import load
 from benchmark import benchmark
 
+'''
+For windows platform, please do jit compile in x64 Native Tools Command Prompt for VS 
+'''
 
 if __name__ == "__main__":
     lltm_cpp = load(name="lltm_cpp", sources=["cpp/lltm.cpp"], verbose=True)
