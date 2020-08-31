@@ -34,8 +34,11 @@ def benckmark(lstm_func, description, device='cpu', steps=1000):
     print('{}, Device: {}, Forward: {:.3f} s | Backward {:.3f} s'.format(
         description, device, forward, backward))
 
-benckmark(cpp_lltm, 'C++', device='cuda', steps=10000)
-benckmark(py_lltm, 'Py ', device='cuda', steps=10000)
 
-benckmark(cpp_lltm, 'C++', device='cpu', steps=10000)
-benckmark(py_lltm, 'Py ', device='cpu', steps=10000)
+if __name__ == "__main__":
+
+    benckmark(cpp_lltm, 'C++', device='cuda', steps=10000)
+    benckmark(py_lltm, 'Py ', device='cuda', steps=10000)
+
+    benckmark(cpp_lltm, 'C++', device='cpu', steps=10000)
+    benckmark(py_lltm, 'Py ', device='cpu', steps=10000)
