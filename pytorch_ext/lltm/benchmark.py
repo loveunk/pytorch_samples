@@ -1,10 +1,8 @@
 import time
 import torch
-from cpp.lltm import LLTM as cpp_lltm
-from py import LLTM as py_lltm
 
 
-def benckmark(lstm_func, description, device='cpu', steps=1000):
+def benchmark(lstm_func, description, device='cpu', steps=1000):
     batch_size = 16
     input_features = 32
     state_size = 128
@@ -33,12 +31,3 @@ def benckmark(lstm_func, description, device='cpu', steps=1000):
 
     print('{}, Device: {}, Forward: {:.3f} s | Backward {:.3f} s'.format(
         description, device, forward, backward))
-
-
-if __name__ == "__main__":
-
-    benckmark(cpp_lltm, 'C++', device='cuda', steps=10000)
-    benckmark(py_lltm, 'Py ', device='cuda', steps=10000)
-
-    benckmark(cpp_lltm, 'C++', device='cpu', steps=10000)
-    benckmark(py_lltm, 'Py ', device='cpu', steps=10000)

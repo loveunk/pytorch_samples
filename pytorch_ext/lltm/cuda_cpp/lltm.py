@@ -2,7 +2,7 @@ import math
 import torch
 
 # Our module!
-import lltm_cpp as lltm
+import cuda_cpp.lltm_cuda as lltm
 
 class LLTMFunction(torch.autograd.Function):
     @staticmethod
@@ -18,7 +18,7 @@ class LLTMFunction(torch.autograd.Function):
     def backward(ctx, grad_h, grad_cell):
         outputs = lltm.backward(
             grad_h.contiguous(), grad_cell.contiguous(), *ctx.saved_variables)
-        d_old_h, d_input, d_weights, d_bias, d_old_cell = outputs
+        d_old_h, d_input, d_weights, d_bias, d_old_cell, _ = outputs
         return d_input, d_weights, d_bias, d_old_h, d_old_cell
 
 

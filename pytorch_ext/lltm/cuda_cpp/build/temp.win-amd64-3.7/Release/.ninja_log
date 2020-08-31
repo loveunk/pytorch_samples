@@ -1,0 +1,5 @@
+# ninja log v5
+1	6367	6205584135244016	D:/code/pytorch_samples/pytorch_ext/lltm/cuda/build/temp.win-amd64-3.7/Release/lltm_cuda.obj	56f981396445c4a6
+4	19472	6205584266176182	D:/code/pytorch_samples/pytorch_ext/lltm/cuda/build/temp.win-amd64-3.7/Release/lltm_cuda_kernel.obj	7f1158cfe7f9c19c
+1	6823	6205786907437406	D:/code/pytorch_samples/pytorch_ext/lltm/cuda_cpp/build/temp.win-amd64-3.7/Release/lltm_cuda.obj	9e337bf317d4328c
+3	18765	6205787026774744	D:/code/pytorch_samples/pytorch_ext/lltm/cuda_cpp/build/temp.win-amd64-3.7/Release/lltm_cuda_kernel.obj	6e8fd7bf3c81e923
