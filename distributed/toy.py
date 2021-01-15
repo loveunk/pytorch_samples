@@ -12,8 +12,10 @@ def foo(rank, world_size):
         ranks = list(range(world_size))
         group = dist.new_group(ranks=ranks)
         # compute reduced sum
-        tensor = torch.IntTensor([value])
-        dist.all_reduce(tensor, op=dist.reduce_op.SUM, group=group)
+
+        device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        tensor = torch.IntTensor([value]).to(device)
+        dist.all_reduce(tensor, op=dist.ReduceOp.SUM, group=group)
         print('rank: {}, step: {}, value: {}, reduced sum: {}.'.format(
               rank,step,value,float(tensor)))
         sleep(1)
@@ -27,7 +29,7 @@ def initialize(backend, rank, world_size, ip, port):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--backend', type=str, default='gloo')
+    parser.add_argument('--backend', type=str, default='nccl', choices=['gloo', 'nccl'])
     parser.add_argument('--ip', type=str, default='127.0.0.1')
     parser.add_argument('--port', type=str, default='20000')
     parser.add_argument('--rank', '-r', type=int)
