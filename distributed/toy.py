@@ -34,7 +34,7 @@ def main():
     parser.add_argument('--world-size', '-s', type=int)
     args = parser.parse_args()
     print(args)
-    initialize(args.rank, args.world_size, args.ip, args.port)
+    initialize(args.backend, args.rank, args.world_size, args.ip, args.port)
 
 
 '''
