@@ -41,7 +41,11 @@ def main():
 
 
 '''
-python toy.py --rank ${DLWS_ROLE_IDX} --local_rank 0 --world-size ${DLWS_WORKER_NUM} --ip ${DLWS_SD_worker0_IP} --port 22000
+- For multi-nodes (single gpu per node)
+$ python toy.py --rank ${DLWS_ROLE_IDX} --local_rank ${DLWS_ROLE_IDX} --world-size ${DLWS_WORKER_NUM} --ip ${DLWS_SD_worker0_IP} --port 22000
+
+- For multi-nodes (multi-gpus per node)
+$ please launch with multi-nodes-multi-gpus.sh
 '''
 if __name__ == '__main__':
     main()

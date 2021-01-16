@@ -200,7 +200,7 @@ def main():
 
 '''
 On each node, run:
-python ~/code/pytorch_samples/distributed/MNIST/main.py \
+python ~/code/pytorch_samples/distributed/MNIST/mnist-dist.py \
                 --init-method tcp://${DLWS_SD_worker0_IP}:23456 \
                 --rank ${DLWS_ROLE_IDX} \
                 --backend nccl \
