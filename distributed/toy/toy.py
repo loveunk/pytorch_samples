@@ -33,7 +33,7 @@ def main():
     parser.add_argument('--ip', type=str, default='127.0.0.1')
     parser.add_argument('--port', type=str, default='20000')
     parser.add_argument('--rank', '-r', type=int)
-    parser.add_argument('--local_rank', '-r', type=int)
+    parser.add_argument('--local_rank', '-l', type=int)
     parser.add_argument('--world-size', '-s', type=int)
     args = parser.parse_args()
     print(args)
