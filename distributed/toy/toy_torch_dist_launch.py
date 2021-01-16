@@ -40,7 +40,7 @@ python -m torch.distributed.launch \
         --nnodes=${DLWS_WORKER_NUM} \
         --node_rank=${DLWS_ROLE_IDX} \
         --master_addr="${DLWS_SD_worker0_IP}" \
-        --master_port=22000 toy.py
+        --master_port=22000 toy_torch_dist_launch.py
 '''
 if __name__ == '__main__':
     main()
