@@ -22,5 +22,5 @@ do
     # Global rank
     let RANK=DLWS_ROLE_IDX*LOCAL_SIZE+i
 
-    python $FILE_ROOT/toy.py --rank ${RANK} --world-size ${WORLD_SIZE} --ip ${MASTER_IP} --port $PORT &
+    python $FILE_ROOT/toy.py --rank ${RANK}  --local_rank ${i} --world-size ${WORLD_SIZE} --ip ${MASTER_IP} --port $PORT &
 done
