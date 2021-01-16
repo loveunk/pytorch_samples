@@ -199,11 +199,13 @@ def main():
 
 
 '''
-python3 main.py --init-method tcp://127.0.0.1:23456
-                --rank 1
-                --backend nccl
-                --world-size 2
-                --data_root data1
+On each node, run:
+python ~/code/pytorch_samples/distributed/MNIST/main.py \
+                --init-method tcp://${DLWS_SD_worker0_IP}:23456 \
+                --rank ${DLWS_ROLE_IDX} \
+                --backend nccl \
+                --world-size ${DLWS_WORKER_NUM} \
+                --data_root data-${DLWS_ROLE_IDX}
 '''
 if __name__ == '__main__':
     main()
