@@ -12,3 +12,4 @@ __pycache__
 pytorch_ext/lltm/cpp/build
 pytorch_ext/lltm/cuda/build
 lltm_cpp.egg-info
+.DS_Store
